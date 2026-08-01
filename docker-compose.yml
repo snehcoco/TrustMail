@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  trustmail-backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    image: trustmail-backend:latest
+    container_name: trustmail-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount trained models — download/train externally, mount here
+      - ./backend/trained_models:/app/trained_models:ro
+      # Persist MLflow runs and audit logs
+      - ./backend/mlruns:/app/mlruns
+      - ./backend/logs:/app/logs
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - WORKERS=2
+      - LOG_LEVEL=INFO
+      - ENABLE_TELEMETRY=false
+      - LOG_EMAIL_CONTENT=false
+      # Override with your own secret key
+      - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+
+volumes:
+  trustmail_models:
+  trustmail_logs:

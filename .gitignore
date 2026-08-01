@@ -1,0 +1,119 @@
+# ========================
+# TrustMail .gitignore
+# ========================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# PyTest
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+
+# MLflow
+mlruns/
+mlflow.db
+mlartifacts/
+
+# ONNX Models (large binary files - download separately)
+backend/trained_models/**/*.onnx
+backend/trained_models/**/*.pkl
+backend/trained_models/**/*.joblib
+
+# Datasets (download separately via scripts)
+base_data/
+backend/datasets/raw/
+backend/datasets/processed/
+backend/datasets/*.csv
+backend/datasets/*.parquet
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Extension build
+extension/dist/
+extension/.vite/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+backend/logs/
+
+# Docker
+.docker/
+
+# Secrets
+*.pem
+*.key
+*.cert
+secrets/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# isort
+.isort.cfg
+
+# Coverage
+.coverage.*
+
+# Type stubs
+typings/

@@ -1,0 +1,30 @@
+{
+  "model_version": "2.0.0-real",
+  "training_date": "2026-08-01T13:11:04Z",
+  "data_source": "real_datasets",
+  "training_samples": 60442,
+  "validation_samples": 7536,
+  "test_samples": 7377,
+  "labels": [
+    "safe",
+    "phishing"
+  ],
+  "random_seed": 42,
+  "feature_dim": 256,
+  "models_trained": [
+    "logistic_regression",
+    "random_forest",
+    "xgboost",
+    "lightgbm",
+    "catboost"
+  ],
+  "ensemble_weights": {
+    "random_forest": 0.3,
+    "xgboost": 0.28,
+    "lightgbm": 0.22,
+    "catboost": 0.12,
+    "logistic_regression": 0.08
+  },
+  "ensemble_test_auc": 0.98186,
+  "min_acceptable_auc": 0.7
+}

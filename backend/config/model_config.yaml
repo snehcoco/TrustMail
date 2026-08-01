@@ -1,0 +1,81 @@
+# TrustMail Model Configuration
+# ==============================
+# This file controls model paths, thresholds, and ensemble weights.
+# Modify this file to update model behavior without changing code.
+
+model:
+  version: "1.0.0"
+  name: "TrustMail Hybrid Ensemble v1"
+  description: "DistilBERT ONNX + Classical ML ensemble for phishing detection"
+  trained_date: "2025-01-01"
+
+# ── Risk Classification Thresholds ─────────────────────────────────────────
+# Final ensemble probability → label
+thresholds:
+  safe:          0.0   # [0.0, 0.2)
+  low_risk:      0.2   # [0.2, 0.45)
+  suspicious:    0.45  # [0.45, 0.65)
+  phishing:      0.65  # [0.65, 0.85)
+  highly_dangerous: 0.85  # [0.85, 1.0]
+
+# ── Ensemble Weights ────────────────────────────────────────────────────────
+# Weight applied to each sub-model's probability output before averaging.
+# Must sum to 1.0.
+ensemble:
+  transformer_weight: 0.45      # DistilBERT ONNX
+  random_forest_weight: 0.15
+  xgboost_weight: 0.15
+  lightgbm_weight: 0.10
+  catboost_weight: 0.10
+  logistic_regression_weight: 0.05
+
+# ── Header Analysis Weights ─────────────────────────────────────────────────
+header_scoring:
+  spf_fail: 25
+  dkim_missing: 20
+  dmarc_fail: 20
+  reply_to_mismatch: 15
+  return_path_mismatch: 10
+  received_chain_anomaly: 10
+
+# ── URL Analysis Weights ────────────────────────────────────────────────────
+url_scoring:
+  homograph_attack: 30
+  typosquatting: 25
+  ip_based_url: 20
+  shortened_url: 15
+  excessive_redirects: 15
+  suspicious_tld: 10
+  encoded_url: 10
+  deceptive_https: 10
+
+# ── NLP Feature Weights ─────────────────────────────────────────────────────
+nlp_scoring:
+  urgency_language: 10
+  fear_tactics: 15
+  credential_harvesting: 25
+  fake_login_page_cues: 20
+  authority_abuse: 10
+  social_engineering: 15
+
+# ── ONNX Runtime ────────────────────────────────────────────────────────────
+onnx:
+  num_threads: 4
+  inter_op_num_threads: 2
+  optimization_level: 99        # OrtGraphOptimizationLevel.ORT_ENABLE_ALL
+  execution_mode: 0             # Sequential
+  max_sequence_length: 512
+
+# ── Classical Models ────────────────────────────────────────────────────────
+classical:
+  tfidf_max_features: 50000
+  tfidf_ngram_range: [1, 3]
+  char_ngram_range: [3, 5]
+  max_features_char: 30000
+
+# ── Inference Timeouts (seconds) ────────────────────────────────────────────
+timeouts:
+  single_email: 10
+  batch_per_email: 5
+  explanation: 30
+  url_check: 5

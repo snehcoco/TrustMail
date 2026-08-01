@@ -1,0 +1,155 @@
+/**
+ * Global Styles — TrustMail Design System
+ * =========================================
+ * Dark-mode-first cybersecurity aesthetic with:
+ * - Glassmorphism cards
+ * - Smooth animations
+ * - Neon accent colors
+ * - Professional enterprise typography
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── CSS Variables (Design Tokens) ─────────────────────────────────────────── */
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Brand colors */
+  --brand-cyan: #06b6d4;
+  --brand-blue: #3b82f6;
+  --brand-purple: #8b5cf6;
+
+  /* Risk colors */
+  --risk-safe: #22c55e;
+  --risk-low: #84cc16;
+  --risk-suspicious: #f59e0b;
+  --risk-phishing: #ef4444;
+  --risk-dangerous: #dc2626;
+
+  /* Dark surfaces (glassmorphism) */
+  --surface-base: #050a0f;
+  --surface-card: rgba(15, 23, 42, 0.8);
+  --surface-card-border: rgba(99, 102, 241, 0.2);
+  --surface-hover: rgba(30, 41, 59, 0.9);
+
+  /* Text */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+
+  /* Popup dimensions */
+  --popup-width: 420px;
+  --popup-min-height: 560px;
+}
+
+/* ── Base Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--surface-base);
+  color: var(--text-primary);
+  min-width: var(--popup-width);
+  min-height: var(--popup-min-height);
+  overflow-x: hidden;
+}
+
+/* ── Glassmorphism Card ──────────────────────────────────────────────────────── */
+.glass-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-card-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+}
+
+.glass-card:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  background: var(--surface-hover);
+  transition: all 0.2s ease;
+}
+
+/* ── Risk Level Colors ───────────────────────────────────────────────────────── */
+.risk-safe       { color: var(--risk-safe); }
+.risk-low_risk   { color: var(--risk-low); }
+.risk-suspicious { color: var(--risk-suspicious); }
+.risk-phishing   { color: var(--risk-phishing); }
+.risk-highly_dangerous { color: var(--risk-dangerous); }
+
+.risk-bg-safe       { background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.3); }
+.risk-bg-low_risk   { background: rgba(132, 204, 22, 0.15); border-color: rgba(132, 204, 22, 0.3); }
+.risk-bg-suspicious { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3); }
+.risk-bg-phishing   { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); }
+.risk-bg-highly_dangerous { background: rgba(220, 38, 38, 0.15); border-color: rgba(220, 38, 38, 0.3); }
+
+/* ── Scrollbar Styling ──────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.4);
+  border-radius: 2px;
+}
+
+/* ── Monospace Code ─────────────────────────────────────────────────────────── */
+code, .font-mono {
+  font-family: var(--font-mono);
+}
+
+/* ── Neon Glow Effects ──────────────────────────────────────────────────────── */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.3), 0 0 40px rgba(6, 182, 212, 0.1);
+}
+.glow-red {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3), 0 0 40px rgba(239, 68, 68, 0.1);
+}
+.glow-green {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3), 0 0 40px rgba(34, 197, 94, 0.1);
+}
+
+/* ── Animated pulse for scanning state ─────────────────────────────────────── */
+@keyframes pulse-scan {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.animate-scan {
+  animation: pulse-scan 1.5s ease-in-out infinite;
+}
+
+/* ── Gradient text ──────────────────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--brand-cyan), var(--brand-blue), var(--brand-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Smooth transitions ─────────────────────────────────────────────────────── */
+* {
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}
+
+/* Override for transform animations (Framer Motion) */
+[data-framer-motion] {
+  transition: none;
+}

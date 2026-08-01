@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrustMail — Settings</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cyan: #06b6d4; --blue: #3b82f6; --purple: #8b5cf6;
+      --bg: #050a0f; --card: rgba(15,23,42,0.9); --border: rgba(99,102,241,0.25);
+      --text: #f1f5f9; --muted: #94a3b8; --dim: #475569;
+      --safe: #22c55e; --danger: #ef4444;
+    }
+    html, body { min-height: 100vh; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; }
+    body { display: flex; flex-direction: column; align-items: center; padding: 40px 16px; }
+
+    .header { display: flex; align-items: center; gap: 14px; margin-bottom: 36px; }
+    .logo-icon { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg,var(--cyan),var(--blue)); display:flex;align-items:center;justify-content:center;font-size:26px; }
+    h1 { font-size: 24px; font-weight: 700; background: linear-gradient(135deg,var(--cyan),var(--blue),var(--purple)); -webkit-background-clip:text;-webkit-text-fill-color:transparent; }
+    .sub { color: var(--muted); font-size: 13px; }
+
+    .container { width: 100%; max-width: 620px; display: flex; flex-direction: column; gap: 20px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+    .card-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 18px; }
+
+    .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid rgba(99,102,241,0.1); }
+    .setting-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .setting-row:first-of-type { padding-top: 0; }
+    .setting-label { font-size: 14px; font-weight: 500; color: var(--text); }
+    .setting-desc  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-track { position: absolute; inset: 0; background: #334155; border-radius: 12px; cursor: pointer; transition: background 0.2s; }
+    .toggle input:checked + .toggle-track { background: var(--cyan); }
+    .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: white; border-radius: 50%; transition: transform 0.2s; pointer-events: none; }
+    .toggle input:checked ~ .toggle-thumb { transform: translateX(20px); }
+
+    .text-input { background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: var(--text); padding: 8px 12px; font-size: 13px; width: 260px; outline: none; font-family: monospace; }
+    .text-input:focus { border-color: var(--cyan); }
+    .num-input { background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: var(--text); padding: 8px 12px; font-size: 13px; width: 80px; outline: none; text-align: center; }
+    .num-input:focus { border-color: var(--cyan); }
+
+    .btn { padding: 10px 22px; border-radius: 10px; border: none; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.15s; }
+    .btn-primary { background: linear-gradient(135deg,var(--cyan),var(--blue)); color: white; }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-danger { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: var(--danger); }
+    .btn-danger:hover { background: rgba(239,68,68,0.25); }
+    .btn-ghost { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+
+    .status-row { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 10px; background: #0f172a; border: 1px solid #1e293b; }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .online  { background: var(--safe); box-shadow: 0 0 8px var(--safe); }
+    .offline { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+    .checking { background: var(--muted); animation: pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; padding: 12px 20px; border-radius: 12px; background: #022c22; border: 1px solid #166534; color: var(--safe); font-size: 13px; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .toast.show { opacity: 1; }
+
+    .privacy-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .privacy-tag { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); padding: 4px 10px; border-radius: 999px; border: 1px solid #334155; background: #0f172a; }
+    .action-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+
+    footer { margin-top: 32px; color: var(--dim); font-size: 11px; text-align: center; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-icon">🛡️</div>
+  <div>
+    <h1>TrustMail Settings</h1>
+    <p class="sub">Privacy-first AI email threat detection</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <div class="card-title">Backend Connection</div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Backend URL</div>
+        <div class="setting-desc">The local TrustMail API server address</div>
+      </div>
+      <input class="text-input" id="backendUrl" type="text" placeholder="http://127.0.0.1:8000" />
+    </div>
+    <div class="setting-row" style="border:none;padding-top:12px">
+      <div class="status-row" style="flex:1;margin-right:12px">
+        <div class="status-dot checking" id="status-dot"></div>
+        <span id="status-text" style="font-size:13px;color:var(--muted)">Checking connection...</span>
+        <span id="status-version" style="margin-left:auto;font-size:11px;color:var(--dim)"></span>
+      </div>
+      <button class="btn btn-ghost" id="btn-test">Test</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Analysis Settings</div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Auto-scan emails</div>
+        <div class="setting-desc">Automatically scan emails when you open them</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="autoScan" />
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>
+    </div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Include AI explanations</div>
+        <div class="setting-desc">Show SHAP + LIME reasoning (slightly slower)</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="includeExplanations" />
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>
+    </div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Notify on phishing</div>
+        <div class="setting-desc">Show badge alert when phishing is detected</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="notifyOnPhishing" />
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>
+    </div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Scan history limit</div>
+        <div class="setting-desc">Maximum number of past scans to remember</div>
+      </div>
+      <input class="num-input" id="maxHistoryItems" type="number" min="10" max="500" step="10" />
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Privacy Guarantees</div>
+    <div class="privacy-row" style="margin-bottom:16px">
+      <span class="privacy-tag">🔒 100% Local Inference</span>
+      <span class="privacy-tag">🚫 No External AI APIs</span>
+      <span class="privacy-tag">🗑️ No Email Body Stored</span>
+      <span class="privacy-tag">📵 No Telemetry</span>
+    </div>
+    <p style="font-size:12px;color:var(--muted);line-height:1.6">
+      TrustMail processes your emails locally using ONNX Runtime. Raw email content is 
+      analyzed in memory only and never written to disk. Only scan metadata 
+      (risk level, timestamp, subject line) is stored in your browser.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Data Management</div>
+    <div class="action-row">
+      <button class="btn btn-ghost" id="btn-clear-history">🗑️ Clear Scan History</button>
+      <button class="btn btn-ghost" id="btn-reset">↺ Reset to Defaults</button>
+      <button class="btn btn-ghost" id="btn-export">⬇ Export Settings</button>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:flex-end;gap:10px">
+    <button class="btn btn-danger" id="btn-reset-footer">Reset Defaults</button>
+    <button class="btn btn-primary" id="btn-save">Save Settings</button>
+  </div>
+
+</div>
+
+<footer>TrustMail v1.0.0 · Privacy-first email security</footer>
+<div class="toast" id="toast">✓ Settings saved</div>
+
+<script src="options.js"></script>
+</body>
+</html>

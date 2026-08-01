@@ -1,0 +1,103 @@
+{
+  "manifest_version": 3,
+  "name": "TrustMail — AI Email Threat Detector",
+  "version": "1.1.0",
+  "description": "Privacy-first AI phishing detection. 100% local inference — your emails never leave your device.",
+
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "32": "assets/icons/icon32.png"
+    },
+    "default_title": "TrustMail — Scan Current Email"
+  },
+
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mail.google.com/*",
+        "https://www.gmail.com/*"
+      ],
+      "js": ["content/inbox-scanner.js", "content/gmail.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    },
+    {
+      "matches": [
+        "https://outlook.live.com/*",
+        "https://outlook.office.com/*",
+        "https://outlook.office365.com/*"
+      ],
+      "js": ["content/inbox-scanner.js", "content/outlook.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    },
+    {
+      "matches": [
+        "https://mail.yahoo.com/*"
+      ],
+      "js": ["content/inbox-scanner.js", "content/yahoo.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    },
+    {
+      "matches": [
+        "https://mail.proton.me/*",
+        "https://protonmail.com/*"
+      ],
+      "js": ["content/inbox-scanner.js", "content/proton.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "alarms",
+    "tabs"
+  ],
+
+  "host_permissions": [
+    "https://mail.google.com/*",
+    "https://outlook.live.com/*",
+    "https://outlook.office.com/*",
+    "https://outlook.office365.com/*",
+    "https://mail.yahoo.com/*",
+    "https://mail.proton.me/*",
+    "https://protonmail.com/*",
+    "http://127.0.0.1:8000/*",
+    "http://localhost:8000/*"
+  ],
+
+  "options_ui": {
+    "page": "options/index.html",
+    "open_in_tab": true
+  },
+
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src http://127.0.0.1:8000 http://localhost:8000; font-src 'self' data:"
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*", "content/inbox-scanner.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
+

@@ -1,0 +1,13 @@
+{
+  "text": "URGENT NOTICE: Your PayPal account has been LIMITED! We have detected suspicious activity on your account. You must verify your information IMMEDIATELY to avoid permanent suspension. Click here NOW: http://paypa1-secure.xyz/verify?token=abc123. Enter your password, card number, and SSN to confirm your identity. This is your FINAL WARNING.",
+  "subject": "URGENT: Your PayPal Account Has Been Limited - Action Required",
+  "sender": "security@paypa1-secure.xyz",
+  "reply_to": "hacker@evil.com",
+  "urls": [
+    "http://paypa1-secure.xyz/verify?token=abc123",
+    "http://192.168.1.1/collect"
+  ],
+  "label": 1,
+  "expected_risk": "highly_dangerous",
+  "description": "Classic credential harvesting phishing email targeting PayPal users"
+}
