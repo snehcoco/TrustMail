@@ -1,4 +1,4 @@
-# 🛡️ TrustMail — AI Email Threat Detector
+# TrustMail — AI Email Threat Detector
 
 > **Privacy-first phishing detection. 100% local inference — your emails never leave your device.**
 
@@ -25,7 +25,7 @@ TrustMail is a Chrome Extension that uses **locally running machine learning mod
 
 ## Key Features
 
-### 🆕 v1.1 — Inbox Risk Indicators
+### v1.1 — Inbox Risk Indicators
 Risk pills appear **directly in your inbox** — no need to open an email to know it's dangerous.
 
 - **Real-time scanning** of every email row as you browse
@@ -89,7 +89,7 @@ python training/run_training.py
 
 # Start the server
 python app.py
-# ✅ Server running at http://127.0.0.1:8000
+# Server running at http://127.0.0.1:8000
 ```
 
 #### Option B: Full Setup (Real Datasets)
@@ -114,7 +114,7 @@ python training/run_training.py --use-real-data
 
 # Start the server
 python app.py
-# ✅ Server running at http://127.0.0.1:8000
+# Server running at http://127.0.0.1:8000
 ```
 
 ### 2. Load the extension
