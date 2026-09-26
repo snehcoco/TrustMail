@@ -1,4 +1,4 @@
-# TrustMail — AI Email Threat Detector
+# TrustMail - AI Email Threat Detector
 
 > **Privacy-first phishing detection. 100% local inference — your emails never leave your device.**
 
